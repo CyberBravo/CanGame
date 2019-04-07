@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.IO;
 
 public class ClickEvents : MonoBehaviour {
 	public GameObject GameOver;
@@ -15,6 +16,9 @@ public class ClickEvents : MonoBehaviour {
 		public GameObject pause;
 		public GameObject resume;
 
+		public GameObject gameoverScore;
+		public GameObject gameoverHighScore;
+
 
 		public Text Score;
 		public Text HighScore;
@@ -23,6 +27,8 @@ public class ClickEvents : MonoBehaviour {
 	float timeDurationForTween = 0.3f;
 	void Awake(){
 		//sharedClickEvents = this;
+		///PlayerPrefs.SetInt (Constants.cons.kHighscore,0);
+
 	}
 
 		void Start()
@@ -102,7 +108,22 @@ public class ClickEvents : MonoBehaviour {
 				
 //		TweenScale.Begin (ObjHolders.sharedObjects.UIMainGame,timeDurationForTween,Vector3.zero);
 //		TweenScale.Begin (ObjHolders.sharedObjects.UIGameOver, timeDurationForTween, Vector3.one);
-				GameOver.SetActive (true);
+
+		if (Constants.cons.score > Constants.cons.currentHighScore)
+		{
+			gameoverHighScore.transform.GetChild(0).GetComponent<Text> ().text = Constants.cons.score.ToString ();
+			gameoverHighScore.SetActive (true);
+		} 
+		else
+		{
+			gameoverScore.transform.GetChild(0).GetComponent<Text> ().text = Constants.cons.score.ToString ();
+			gameoverScore.SetActive (true);
+		}
+
+
+		GameOver.SetActive (true);
+
+
 		
 	}
 	public void btnPlayAgainPressed(){
@@ -151,4 +172,65 @@ public class ClickEvents : MonoBehaviour {
 				} else 
 						return true;
 		}
+
+
+
+
+	public void Take()
+	{
+		StartCoroutine( TakeSSAndShare(" Mind blowing Game try this Now " ));
+	}
+
+	public void GamePlayShare()
+	{
+		StartCoroutine( TakeSSAndShare(" Can You Beat My Score " ));
+	}
+
+	private IEnumerator TakeSSAndShare(string str)
+	{
+		yield return new WaitForEndOfFrame();
+
+		Texture2D ss = new Texture2D( Screen.width, Screen.height, TextureFormat.RGB24, false );
+		ss.ReadPixels( new Rect( 0, 0, Screen.width, Screen.height ), 0, 0 );
+		ss.Apply();
+
+		string filePath = Path.Combine( Application.temporaryCachePath, "shared img.png" );
+		File.WriteAllBytes( filePath, ss.EncodeToPNG() );
+
+		// To avoid memory leaks
+		Destroy( ss );
+
+		new NativeShare().AddFile( filePath ).SetSubject( "Awesome Game" ).SetText( str + "https://play.google.com/store/apps/details?id=com.game5mobile.lineandwater " + "https://play.google.com/store/apps/details?id=com.mutechnolabs.canshoot" ).Share();
+
+		// Share on WhatsApp only, if installed (Android only)
+		//if( NativeShare.TargetExists( "com.whatsapp" ) )
+		//	new NativeShare().AddFile( filePath ).SetText( "Hello world!" ).SetTarget( "com.whatsapp" ).Share();
+	}
+
+
+
+	public GameObject exitScreen;
+	void Update()
+	{
+		if (Input.GetKeyDown (KeyCode.Escape)) 
+		{
+
+
+			if(
+			exitScreen.SetActive (true);
+		}
+
+	}
+
+
+	public void exitNoBtn()
+	{
+		exitScreen.SetActive (false);
+	}
+	public void exitYesBtn()
+	{
+		Application.Quit();
+		print ("Quit");
+	}
+
 }

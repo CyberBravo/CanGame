@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour {
 				//print ("First: "+gameObject.transform.position);
 				//print ("Second: "+b);
 				//Debug.Log ("Pressed"+gameObject1.name);
-				print ("Distance: "+Vector2.Distance(gameObject1.transform.position, b));
+				//print ("Distance: "+Vector2.Distance(gameObject1.transform.position, b));
 				//print ("Min Distance: "+ minDistance);
 
 				float dist = Vector2.Distance (gameObject1.transform.position, b);
@@ -52,6 +52,8 @@ public class GameManager : MonoBehaviour {
 				Debug.Log ("missed");
 				//this.PlaySound("canPressedMissed");
 			}
+
+
 
 		}
 	}
