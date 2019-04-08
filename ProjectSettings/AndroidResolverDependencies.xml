@@ -1,4 +1,6 @@
 <dependencies>
-  <packages />
+  <packages>
+    <package>com.google.android.gms:play-services-ads:11.6.0</package>
+  </packages>
   <files />
 </dependencies>

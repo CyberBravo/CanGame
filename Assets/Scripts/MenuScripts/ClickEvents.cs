@@ -33,6 +33,9 @@ public class ClickEvents : MonoBehaviour {
 
 		void Start()
 		{
+
+
+		Advertisements.Instance.Initialize ();
 				if (HighScore) {
 						if (PlayerPrefs.GetInt (Constants.cons.kHighscore, 1) != 1) {
 								Debug.Log ("Setting HighScore " + PlayerPrefs.GetInt (Constants.cons.kHighscore).ToString ());
@@ -120,7 +123,7 @@ public class ClickEvents : MonoBehaviour {
 			gameoverScore.SetActive (true);
 		}
 
-
+		Advertisements.Instance.ShowInterstitial ();
 		GameOver.SetActive (true);
 
 
@@ -200,7 +203,7 @@ public class ClickEvents : MonoBehaviour {
 		// To avoid memory leaks
 		Destroy( ss );
 
-		new NativeShare().AddFile( filePath ).SetSubject( "Awesome Game" ).SetText( str + "https://play.google.com/store/apps/details?id=com.game5mobile.lineandwater " + "https://play.google.com/store/apps/details?id=com.mutechnolabs.canshoot" ).Share();
+		new NativeShare().AddFile( filePath ).SetSubject( "Awesome Game" ).SetText( str +"https://play.google.com/store/apps/details?id=com.mutechnolabs.canshoot" ).Share();
 
 		// Share on WhatsApp only, if installed (Android only)
 		//if( NativeShare.TargetExists( "com.whatsapp" ) )
@@ -214,9 +217,10 @@ public class ClickEvents : MonoBehaviour {
 	{
 		if (Input.GetKeyDown (KeyCode.Escape)) 
 		{
-
-
-			if(
+			if (Application.loadedLevel == 1) 
+			{
+				Time.timeScale = 0;
+			}
 			exitScreen.SetActive (true);
 		}
 
@@ -225,6 +229,11 @@ public class ClickEvents : MonoBehaviour {
 
 	public void exitNoBtn()
 	{
+		if (Application.loadedLevel == 1) 
+		{
+			Time.timeScale = 1;
+		}
+
 		exitScreen.SetActive (false);
 	}
 	public void exitYesBtn()
