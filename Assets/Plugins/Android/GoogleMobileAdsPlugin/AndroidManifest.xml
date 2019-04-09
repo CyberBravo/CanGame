@@ -10,8 +10,4 @@ required for displaying ads.
     android:versionCode="1">
   <uses-sdk android:minSdkVersion="14"
       android:targetSdkVersion="19" />
-  <application>
-
-  <provider  android:name="com.yasirkula.unity.UnitySSContentProvider" android:authorities="MY_APP" android:exported="false" android:grantUriPermissions="true" >   </provider>
-  </application>
 </manifest>
